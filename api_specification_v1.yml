@@ -1,0 +1,109 @@
+swagger: '2.0'
+info:
+  title: Email Service API
+  version: v1.0
+basePath: /api/v1
+paths:
+  /email: 
+    post:
+      summary: Send email.
+      description: |
+        REST API which allows sending an email to one or more recipients.
+      tags:
+        - Email Sender
+      produces:
+        - application/hal+json
+      parameters:
+        - name: Authorization
+          type: string
+          in: header
+          required: true
+          description: Intended for clients to identify themselves using a valid access key with appropriate grant type and scope to send an email.
+        - name: X-Correlation-ID
+          type: string
+          in: header
+          description: A unique UUID to identify the request
+        - name: Content-Type
+          type: string
+          in: header
+          required: true
+          enum: [application/json]
+        - name: Accept
+          type: string
+          in: header
+          required: true
+          enum: [application/json]
+        - name: enrich
+          description: To enrich the email messages by appending a random quote of the day, the current Weather in Carlsbad (Raken HQ) or any other piece of data that the Email service can pull from an external REST API 
+          type: string
+          in: query             
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/EmailRequest'
+      responses:
+        200:
+          description: |
+            Email sent successfully.
+        400:
+          description: |
+            To handle invalid email address, subject and email content
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        401:
+          description: |
+            To handle unauthorized requests.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: |
+            To handle internal failures.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        501:
+          description: |
+            To handle invalid email client in configuration.
+          schema:
+            $ref: '#/definitions/ErrorResponse'            
+
+
+definitions:
+  EmailData: 
+    type: object
+    description: |
+      Contains signup information for the user. Fields required unless indicated otherwise.
+    properties:
+      to:
+        description: |
+          To email address
+        type: string
+      cc:
+        description: |
+          CC address list
+        type: string
+      bcc:
+        description: |
+          BCC address list
+        type: string
+      body:
+        description: |
+          Email body
+        type: string
+      subject:
+        description: |
+          Email subject
+        type: string
+
+
+  EmailRequest:
+    $ref: '#/definitions/EmailData'
+
+
+  ErrorResponse: 
+    type: object
+    properties:
+      errorMessage:
+        type: string
+
+

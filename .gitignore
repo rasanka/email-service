@@ -1,0 +1,10 @@
+/target/
+*.log
+*.iml
+*.log.gz
+.checkstyle
+.classpath
+.idea
+.project
+.settings
+.mvn/

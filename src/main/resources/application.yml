@@ -1,0 +1,36 @@
+server:
+  port: 7070
+     
+spring:
+  mvc:
+    formcontent:
+      putfilter:
+        enabled: false
+  profiles:
+    active: "dev"
+    
+configurations:
+  emailClient: sendgrid
+  quoteApiUrl: https://talaikis.com/api/quotes/random/    
+    
+---
+spring:
+  profiles: dev
+configurations:
+  encryptionSecret: 26S36ZO8s1Vyci4lzZYtFCtwmWO6yglH
+  apiKey: Pm4IViDm/gelcTupQBI+rHaHeFzQW5xmFK+dhVUxyFhlC6Pi9e7fL7jvYh80ABS7TJ660+5gVVLTf/VS+GhDoQcrx7h+efKIoXiKqivI13p3YW5ES9DOhldijV6CJgDwyBZAtw==
+  fromAddress: info@test.com
+  filterEmailsEnabled: true
+  filterDomain: mailinator.com
+---    
+spring:
+  profiles: prod
+configurations:
+  encryptionSecret: <PROD ENCRYPTION SECRET>
+  apiKey: <ENCRYPTED PROD API KEY>
+  fromAddress: info@rakenapp.com
+  filterEmailsEnabled: true
+  filterDomain: rakenapp.com
+  
+  
+  
